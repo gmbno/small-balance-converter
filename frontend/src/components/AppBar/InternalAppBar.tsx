@@ -1,7 +1,6 @@
 import {
   AppBar,
   Avatar,
-  Box,
   Button,
   SelectChangeEvent,
   Toolbar,
@@ -41,39 +40,42 @@ export const InternalAppBar = ({
     account?.substring(0, 6) +
     '...' +
     account?.substring(account.length - 4, account.length);
+
   return (
-    <Box>
-      <AppBar position={'fixed'}>
-        <Toolbar>
-          <Avatar
-            src={
-              'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Recycling_symbol.svg/2116px-Recycling_symbol.svg.png'
-            }
-          />
-          <div style={{ marginLeft: 'auto', display: 'flex' }}>
-            {active && (
-              <>
-                <NetworkSelect value={chainId} onChange={handleChainChange} />
-                <Button variant={'contained'} onClick={deactivate}>
-                  {formattedAccount}
-                </Button>
-              </>
-            )}
-            {!active && (
+    <AppBar position={'fixed'}>
+      <Toolbar>
+        <Avatar
+          src={
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Recycling_symbol.svg/2116px-Recycling_symbol.svg.png'
+          }
+        />
+        <div style={{ marginLeft: 'auto', display: 'flex' }}>
+          {active && (
+            <>
+              <NetworkSelect value={chainId} onChange={handleChainChange} />
               <Button
                 variant={'contained'}
-                onClick={() => setIsDrawerOpen(true)}>
-                Connect
+                onClick={deactivate}
+                sx={{ maxHeight: 40 }}>
+                {formattedAccount}
               </Button>
-            )}
-          </div>
-          <ConnectionDrawer
-            isOpen={isDrawerOpen}
-            setIsOpen={setIsDrawerOpen}
-            activate={activate}
-          />
-        </Toolbar>
-      </AppBar>
-    </Box>
+            </>
+          )}
+          {!active && (
+            <Button
+              variant={'contained'}
+              onClick={() => setIsDrawerOpen(true)}
+              sx={{ maxHeight: 40 }}>
+              Connect
+            </Button>
+          )}
+        </div>
+        <ConnectionDrawer
+          isOpen={isDrawerOpen}
+          setIsOpen={setIsDrawerOpen}
+          activate={activate}
+        />
+      </Toolbar>
+    </AppBar>
   );
 };
