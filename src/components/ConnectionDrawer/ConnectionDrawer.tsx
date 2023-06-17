@@ -1,15 +1,19 @@
 import { Avatar, Box, Button, Drawer, List } from "@mui/material";
 import React from "react";
 
+import { connectors } from "../../Connectors.ts";
+
 interface ConnectionDrawerParams {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    activate: any
 }
 
-export const ConnectionDrawer = ({ isOpen, setIsOpen }: ConnectionDrawerParams) => {
+export const ConnectionDrawer = ({ isOpen, setIsOpen, activate }: ConnectionDrawerParams) => {
 
     const connectMetamask = () => {
-        //activate(Injected)
+        activate(connectors.injected)
+        setIsOpen(false)
     }
 
     return (<Drawer
