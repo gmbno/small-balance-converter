@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "bignumber.js": "^9.1.1",
     "cache-manager": "^5.2.3",
+    "etherscan-api": "^10.3.0",
     "reflect-metadata": "^0.1.13",
     "run-script-webpack-plugin": "^0.2.0",
     "rxjs": "^7.8.1",

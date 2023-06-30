@@ -5,8 +5,9 @@ import {
   SelectChangeEvent,
   Toolbar,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import { connectors } from '../../Connectors.ts';
 import { ConnectionDrawer } from '../ConnectionDrawer/ConnectionDrawer.tsx';
 import { NetworkSelect } from './NetworkSelect.tsx';
 
@@ -29,11 +30,54 @@ export const InternalAppBar = ({
 }: InternalAppBarProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
+  const sign = async () => {
+    /*if (!account || !library?.eth) return;
+
+    try {
+      const hash = sha3('wBUvKDz%DrMT*KQmb99T%E@m7*eQ6M!i') as string;
+      const signature = await library?.eth.personal.sign(hash, account, '');
+      console.log(
+        await library?.eth.personal.ecRecover(hash, signature),
+        account
+      );
+    } catch (e) {
+      disconnectHandler();
+    }*/
+  };
+
+  useEffect(() => {
+    const connectWalletOnPageLoad = async () => {
+      if (localStorage.getItem('isWalletConnected') === String(true)) {
+        try {
+          await activate(connectors.injected);
+        } catch (ex) {
+          console.log(ex);
+        }
+      }
+    };
+    connectWalletOnPageLoad();
+  }, [activate]);
+
+  useEffect(() => {
+    sign();
+  }, [library?.eth]);
+
   const handleChainChange = async (event: SelectChangeEvent<number>) => {
     await library.currentProvider.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: `0x${Number(event.target.value).toString(16)}` }],
     });
+  };
+
+  const disconnectHandler = () => {
+    deactivate();
+    localStorage.setItem('isWalletConnected', String(false));
+  };
+
+  const connectHandler = () => {
+    activate(connectors.injected);
+    localStorage.setItem('isWalletConnected', String(true));
+    setIsDrawerOpen(false);
   };
 
   const formattedAccount =
@@ -42,11 +86,17 @@ export const InternalAppBar = ({
     account?.substring(account.length - 4, account.length);
 
   return (
-    <AppBar position={'fixed'}>
+    <AppBar
+      position={'fixed'}
+      sx={{
+        backgroundColor: '#00000000',
+        backgroundImage: 'none',
+        height: '0px',
+      }}>
       <Toolbar>
         <Avatar
           src={
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Recycling_symbol.svg/2116px-Recycling_symbol.svg.png'
+            'https://logos-world.net/wp-content/uploads/2021/10/Recycle-Symbol.png'
           }
         />
         <div style={{ marginLeft: 'auto', display: 'flex' }}>
@@ -54,8 +104,8 @@ export const InternalAppBar = ({
             <>
               <NetworkSelect value={chainId} onChange={handleChainChange} />
               <Button
-                variant={'contained'}
-                onClick={deactivate}
+                variant={'outlined'}
+                onClick={() => disconnectHandler()}
                 sx={{ maxHeight: 40 }}>
                 {formattedAccount}
               </Button>
@@ -63,7 +113,7 @@ export const InternalAppBar = ({
           )}
           {!active && (
             <Button
-              variant={'contained'}
+              variant={'outlined'}
               onClick={() => setIsDrawerOpen(true)}
               sx={{ maxHeight: 40 }}>
               Connect
@@ -73,7 +123,7 @@ export const InternalAppBar = ({
         <ConnectionDrawer
           isOpen={isDrawerOpen}
           setIsOpen={setIsDrawerOpen}
-          activate={activate}
+          connectHandler={connectHandler}
         />
       </Toolbar>
     </AppBar>

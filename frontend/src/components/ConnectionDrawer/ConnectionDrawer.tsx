@@ -1,31 +1,37 @@
 import { Avatar, Box, Button, Drawer, List } from '@mui/material';
 import React from 'react';
 
-import { connectors } from '../../Connectors.ts';
-
 interface ConnectionDrawerParams {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  activate: any;
+  connectHandler: any;
 }
 
 export const ConnectionDrawer = ({
   isOpen,
   setIsOpen,
-  activate,
+  connectHandler,
 }: ConnectionDrawerParams) => {
-  const connectMetamask = () => {
-    activate(connectors.injected);
-    setIsOpen(false);
-  };
-
   return (
-    <Drawer anchor={'right'} open={isOpen} onClose={() => setIsOpen(false)}>
-      <Box sx={{ padding: '5px 20px' }}>
+    <Drawer
+      anchor={'right'}
+      open={isOpen}
+      onClose={() => setIsOpen(false)}
+      PaperProps={{
+        sx: {
+          borderLeft: 'solid',
+          borderWidth: '0.5px',
+          borderColor: '#ffffff60',
+        },
+      }}>
+      <Box
+        sx={{
+          padding: '5px 20px',
+        }}>
         <List>
           <Button
             variant={'contained'}
-            onClick={connectMetamask}
+            onClick={connectHandler}
             startIcon={
               <Avatar
                 src={

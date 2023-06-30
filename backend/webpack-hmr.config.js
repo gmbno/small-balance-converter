@@ -8,8 +8,8 @@ module.exports = function (options, webpack) {
     ...options,
     watch: true,
     watchOptions: {
-      aggregateTimeout: 200,
-      poll: 500,
+      aggregateTimeout: 1000,
+      poll: 2500,
     },
     entry: ['webpack/hot/poll?100', options.entry],
     externals: [
