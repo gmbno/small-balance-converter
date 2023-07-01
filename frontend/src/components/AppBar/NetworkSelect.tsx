@@ -1,4 +1,12 @@
-import {Avatar, ListItem, ListItemAvatar, ListItemText, MenuItem, Select, SelectChangeEvent,} from '@mui/material';
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material';
 
 interface NetworkSelectProps {
   value: number | undefined;
@@ -11,8 +19,18 @@ export function NetworkSelect({ value, onChange }: NetworkSelectProps) {
       value={value}
       onChange={onChange}
       autoWidth
-      MenuProps={{ MenuListProps: { disablePadding: true } }}
-      style={{ marginRight: '10px', maxHeight: 40 }}>
+      MenuProps={{
+        MenuListProps: {
+          disablePadding: true,
+          sx: {
+            borderRadius: '14px',
+            borderStyle: 'solid',
+            borderWidth: '0.5px',
+            borderColor: '#ffffff60',
+          },
+        },
+      }}
+      sx={{ marginRight: '10px', maxHeight: 40 }}>
       <MenuItem value={1}>
         <ListItem>
           <ListItemAvatar>

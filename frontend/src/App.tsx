@@ -7,6 +7,9 @@ import { InternalAppBar } from './components/AppBar/InternalAppBar.tsx';
 import { TokenSelector } from './components/TokenSelector/TokenSelector.tsx';
 
 const theme = createTheme({
+  typography: {
+    fontFamily: ['Inter', 'sans-serif'].join(','),
+  },
   components: {
     MuiPaper: {
       styleOverrides: {
